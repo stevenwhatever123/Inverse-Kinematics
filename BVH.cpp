@@ -1,5 +1,6 @@
 #include <fstream>
 #include <string>
+#include <iostream>
 
 #include "BVH.h"
 // NOTE: This might not be needed
@@ -265,6 +266,8 @@ void BVH::RenderFigure(const Joint* joint, const double* data, float scale) {
 
     // Apply translation for root joints
     if (joint->parent == NULL) {
+        //std::cout << "BVH: " << data[0]<< " " << data[1]<< " "
+            //<< data[2]<< "\n";
         glTranslatef(data[0] * scale, data[1] * scale, data[2] * scale);
     }
     // For child joints, apply translation from the parent joint
@@ -420,6 +423,92 @@ void BVH::RenderBone(float x0, float y0, float z0, float x1, float y1, float z1,
     gluCylinder(quad_obj, radius, radius, bone_length, slices, stack);
 
     glPopMatrix();
+}
+
+void BVH::printTree(ofstream &f, Joint* root, std::string indent, bool last) 
+{
+    /*
+    std::cout << indent << "+- " << root->name << "\n";;
+    indent += last ? "  " : "| ";
+
+    for (int i = 0; i < root->children.size(); i++)
+    {
+        printTree(root->children[i], indent, i == root->children.size() - 1);
+    }*/
+
+    std::vector<std::string> channelEnum = {
+        "Xrotation",
+        "Yrotation",
+        "Zrotation",
+        "Xposition",
+        "Yposition",
+        "Zposition" };
+
+    int index = 0;
+
+    if (root->parent == NULL)
+    {
+        f << "HIERARCHY" << "\n";
+        f << "ROOT " << root->name << "\n";
+        f << "{" << "\n";
+        indent += "    ";
+        f << indent << "OFFSET ";
+        f << root->offset[0] << " ";
+        f << root->offset[1] << " ";
+        f << root->offset[2] << " ";
+        f << "\n";
+        f << indent << "CHANNELS ";
+        f << root->channels.size() << " ";
+        for (int i = 0; i < root->channels.size(); i++)
+        {
+            index = root->channels[i]->type;
+            f << channelEnum[index] << " ";
+        }
+        f << "\n";
+    }
+    else
+    {
+        f << indent << "JOINT " << root->name << "\n";
+        f << indent << "{" << "\n";
+        indent += "    ";
+        f << indent << "OFFSET ";
+        f << root->offset[0] << " ";
+        f << root->offset[1] << " ";
+        f << root->offset[2] << " ";
+        f << "\n";
+        f << indent << "CHANNELS ";
+        f << root->channels.size() << " ";
+        for (int i = 0; i < root->channels.size(); i++)
+        {
+            index = root->channels[i]->type;
+            f << channelEnum[index] << " ";
+        }
+        f << "\n";
+
+        if (root->children.size() < 1)
+        {
+            f << indent << "End Site" << "\n";
+            f << indent << "{" << "\n";
+            f << indent << "    " << "OFFSET " << " ";
+            f << 0.000000 << " ";
+            f << 0.000000 << " ";
+            f << 0.000000 << " ";
+            f << "\n";
+            //indent = indent.substr(0, indent.size() - 4);
+            f << indent << "}" << "\n";
+        }
+    }
+
+    for (int i = 0; i < root->children.size(); i++)
+    {
+        printTree(f, root->children[i], indent, i == root->children.size() - 1);
+    }
+
+    //indent = indent.substr(0, indent.size() - 4);
+    for(int i = 0; i < 4; i++)
+        indent.pop_back();
+    
+    f << indent << "}" << "\n";
 }
 
 // End of BVH.cpp

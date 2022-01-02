@@ -131,6 +131,8 @@ public:
     // Change motion data information
     void SetMotion(int f, int c, double v) { motion[f * num_channel + c] = v; }
 
+    void printTree(ofstream &f, Joint* root, std::string indent, bool last);
+
 public:
     /* Posture drawing function */
     // Draw the posture of the specified frame
@@ -143,6 +145,7 @@ public:
     // Draw a single link in the BVH skeleton (class function)
     static void RenderBone(float x0, float y0, float z0, float x1, float y1,
         float z1, float bRadius = 0.1);
+
 };
 
 #endif  // _BVH_H_
