@@ -1,7 +1,7 @@
 For more information, please take a look at "assignment 1.pdf"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Library used: Eigen
+Library used: Eigen, glut
 https://eigen.tuxfamily.org/index.php?title=Main_Page
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
