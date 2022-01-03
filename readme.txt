@@ -1,3 +1,5 @@
+Video demonstration: https://www.youtube.com/watch?v=jM36kk1JzHA
+
 For more information, please take a look at "assignment 1.pdf"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
